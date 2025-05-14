@@ -37,7 +37,7 @@ public class GenAIController {
     }
 
     @GetMapping("/transcribe")
-    public String transcribe(@RequestBody MultipartFile audioFile) {
+    public String transcribe(@ModelAttribute MultipartFile audioFile) {
         return audioTranscriberService.transcribe(audioFile);
     }
 }
