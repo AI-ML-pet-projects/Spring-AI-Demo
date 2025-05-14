@@ -2,10 +2,8 @@ package com.spring.ai.demo;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/ai")
@@ -18,6 +16,8 @@ public class GenAIController {
 
     @Autowired
     private RecipeService recipeService;
+    @Autowired
+    private AudioTranscriberService audioTranscriberService;
 
     @GetMapping("ask")
     public String ask(@RequestParam String prompt) {
@@ -34,5 +34,10 @@ public class GenAIController {
                             @RequestParam(defaultValue = "any") String cuisine,
                             @RequestParam(required = false) String dietaryRestrictions) {
         return recipeService.getRecipe(ingredients, cuisine, dietaryRestrictions);
+    }
+
+    @GetMapping("/transcribe")
+    public String transcribe(@RequestBody MultipartFile audioFile) {
+        return audioTranscriberService.transcribe(audioFile);
     }
 }
